@@ -43,6 +43,8 @@ class PushConfHandler(RequestHandler):
                 new_id = int(mid) + 1
                 data['qid'] = new_id
 
+            colnames = json.dumps(data['colnames'])
+            colalarms = json.dumps(data['colalarms'])
             sql = '''
                 replace into `custom_query`(`id`, `title`, `dblinkId`, `database`, `user`, 
                 `password`, `sql`, `colnames`, `timesTy`, `timesTyVal`, `colalarms`, `status`, 
@@ -52,8 +54,8 @@ class PushConfHandler(RequestHandler):
                 '{description}',{seq},'{groupID}')
             '''.format(id=data['qid'], title=data['title'], dblinkId=data['dblinkId'], database=data['database'],
                        user=data['user'], password=data['password'], sql=data['sql'],
-                       colnames=json.dumps(data['colnames']), timesTy=data['timesTy'],
-                       timesTyVal=data['timesTyVal'], colalarms=json.dumps(data['colalarms']), status=data['status'],
+                       colnames=colnames.replace("\\", "\\\\"), timesTy=data['timesTy'],
+                       timesTyVal=data['timesTyVal'], colalarms=colalarms.replace("\\", "\\\\"), status=data['status'],
                        create_time=data['create_time'], update_time=str(datetime.now()),
                        description=data['description'], seq=data['seq'], groupID=data['groupID'])
             res = mysql_conn.change(sql)
