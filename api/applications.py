@@ -170,6 +170,37 @@ class ConfInfoHandler(RequestHandler):
         return self.write(dict(code=0, groupObj=groupObj, db_list=db_list))
 
 
+class GroupHandler(RequestHandler):
+    def post(self):
+        try:
+            data = json.loads(self.request.body.decode("utf-8"))
+            mysql_conn = getConn()
+            sql = '''
+                INSERT INTO custom_group (`groupName`, `grouptype`, `groupSeq`) 
+                VALUES ('{}', {}, {})
+            '''.format(data['groupName'], data['grouptype'], 0)
+            resnum = mysql_conn.change(sql)
+            if resnum > 0:
+                return self.write(dict(code=0, msg='success'))
+            return self.write(dict(code=-1, msg='failed'))
+        except:
+            return self.write(dict(code=-1, msg='failed'))
+
+    def delete(self):
+        try:
+            data = json.loads(self.request.body.decode("utf-8"))
+            mysql_conn = getConn()
+            sql = '''
+                delete from custom_group where id = {}
+            '''.format(data['id'])
+            resnum = mysql_conn.change(sql)
+            if resnum > 0:
+                return self.write(dict(code=0, msg='success'))
+            return self.write(dict(code=-1, msg='failed'))
+        except:
+            return self.write(dict(code=-1, msg='failed'))
+
+
 class Application(myApp):
     def __init__(self, **settings):
         self.__settings = settings
@@ -181,6 +212,7 @@ class Application(myApp):
 api_urls = [
     (r"/queryPushConf/", PushConfHandler),
     (r"/queryPullConf/", PullConfHandler),
+    (r"/changeZdGroup/", GroupHandler),
     (r"/getInfo/", ConfInfoHandler),
     (r"/are_you_ok/", LivenessProbe),
 ]
