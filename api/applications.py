@@ -47,7 +47,7 @@ class PushConfHandler(RequestHandler):
                 replace into `custom_query`(`id`, `title`, `dblinkId`, `database`, `user`, 
                 `password`, `sql`, `colnames`, `timesTy`, `timesTyVal`, `colalarms`, `status`, 
                 `create_time`, `update_time`, `description`, `seq`, `groupID`) 
-                values ({id},'{title}',{dblinkId},'{database}','{user}','{password}','{sql}',
+                values ({id},'{title}',{dblinkId},'{database}','{user}','{password}',"{sql}",
                 '{colnames}','{timesTy}','{timesTyVal}','{colalarms}','{status}','{create_time}','{update_time}',
                 '{description}',{seq},'{groupID}')
             '''.format(id=data['qid'], title=data['title'], dblinkId=data['dblinkId'], database=data['database'],
