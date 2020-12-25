@@ -63,6 +63,18 @@ class PushConfHandler(RequestHandler):
                 # 返回qid，并更新qid
                 red_data[data['id']] = data['qid']
 
+            # 更新组排序
+            try:
+                groupSeq = data['group2ndSeq']
+                groupName = data['groupName']
+                sql = '''
+                    UPDATE custom_group set groupSeq = {} where groupName = '{}'
+                '''.format(groupSeq, groupName)
+                mysql_conn.change(sql)
+
+            except Exception as e:
+                ins_log.read_log('error', e)
+
         except Exception as e:
             ins_log.read_log('error', e)
             return self.write(dict(code=-1, msg='failed', data=red_data))
