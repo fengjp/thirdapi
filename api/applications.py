@@ -371,12 +371,12 @@ class Application(myApp):
 
 
 api_urls = [
-    (r"/queryPushConf/", PushConfHandler),
-    (r"/queryPullConf/", PullConfHandler),
-    (r"/changeZdGroup/", GroupHandler),
-    (r"/getInfo/", ConfInfoHandler),
-    (r"/doSql/", DoSqlHandler),
-    (r"/are_you_ok/", LivenessProbe),
+    (r"/thirdapi/queryPushConf/", PushConfHandler),
+    (r"/thirdapi/queryPullConf/", PullConfHandler),
+    (r"/thirdapi/changeZdGroup/", GroupHandler),
+    (r"/thirdapi/getInfo/", ConfInfoHandler),
+    (r"/thirdapi/doSql/", DoSqlHandler),
+    (r"/thirdapi/are_you_ok/", LivenessProbe),
 ]
 
 if __name__ == '__main__':
