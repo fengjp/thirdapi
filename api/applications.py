@@ -48,13 +48,16 @@ class PushConfHandler(RequestHandler):
             data = json.loads(self.request.body.decode("utf-8"))
             mysql_conn = getConn()
             if not data['qid']:
-                sql = '''
-                    select max(id) from custom_query
-                '''
-                resp = mysql_conn.query(sql)
-                mid = resp[0][0]
-                new_id = int(mid) + 1
-                data['qid'] = new_id
+                try:
+                    sql = '''
+                        select max(id) from custom_query
+                    '''
+                    resp = mysql_conn.query(sql)
+                    mid = resp[0][0]
+                    new_id = int(mid) + 1
+                    data['qid'] = new_id
+                except:
+                    data['qid'] = 1
 
             colnames = json.dumps(data['colnames'])
             colalarms = json.dumps(data['colalarms'])
@@ -90,7 +93,7 @@ class PushConfHandler(RequestHandler):
 
         except Exception as e:
             ins_log.read_log('error', e)
-            return self.write(dict(code=-1, msg='failed', data=red_data, err=e))
+            return self.write(dict(code=-1, msg='failed', data=red_data, err='%s' % e))
 
         return self.write(dict(code=0, msg='success', data=red_data))
 
@@ -132,7 +135,7 @@ class PullConfHandler(RequestHandler):
 
         except Exception as e:
             ins_log.read_log('error', e)
-            return self.write(dict(code=-1, msg='failed', data=red_data, err=e))
+            return self.write(dict(code=-1, msg='failed', data=red_data, err='%s' % e))
 
         return self.write(dict(code=0, msg='success', data=red_data))
 
