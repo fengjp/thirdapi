@@ -90,7 +90,7 @@ class PushConfHandler(RequestHandler):
 
         except Exception as e:
             ins_log.read_log('error', e)
-            return self.write(dict(code=-1, msg='failed', data=red_data))
+            return self.write(dict(code=-1, msg='failed', data=red_data, err=e))
 
         return self.write(dict(code=0, msg='success', data=red_data))
 
@@ -132,7 +132,7 @@ class PullConfHandler(RequestHandler):
 
         except Exception as e:
             ins_log.read_log('error', e)
-            return self.write(dict(code=-1, msg='failed', data=red_data))
+            return self.write(dict(code=-1, msg='failed', data=red_data, err=e))
 
         return self.write(dict(code=0, msg='success', data=red_data))
 
